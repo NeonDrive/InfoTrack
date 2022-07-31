@@ -28,3 +28,42 @@ textarea {
 	background-color: #777;
 	border-color: #fff
 }
+
+.Search {
+	display: inline-block;
+
+}
+
+.ResultsArea, .SearchArea {
+	display:flex;
+	flex-direction:column;
+
+}
+
+
+.SearchBox {
+	display:inline-block
+}
+
+.SearchCheckBox {
+	display:inline-block;
+}
+
+.NoResultFoundText {
+	
+}
+
+.ResultFoundText {
+	
+}
+
+th, td {
+	width: fit-content;
+	border: solid 1px black;
+	padding: 5px;
+}
+
+th {
+	background-color: blue;
+	color: white;
+}

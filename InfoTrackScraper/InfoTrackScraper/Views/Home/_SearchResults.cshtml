@@ -1,0 +1,29 @@
+﻿
+@using InfoTrackScraper.Models
+@model IEnumerable<SearchResult>
+
+@if(Model.Any()) {
+	<table class="ResultsTable">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.SearchDateTime)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Location)
+			</th>
+		</tr>
+		@foreach(SearchResult result in Model) {
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => result.SearchDateTime)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => result.Location)
+				</td>
+			</tr>
+		}
+	</table>
+}
+else {
+	<span class="NoResultsText">There are no previous search results</span>
+}
