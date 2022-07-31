@@ -31,6 +31,9 @@
 			else if(Model.CurrentResult > 100) {
 				<span class="NoResultFoundText">The current search returned a result greater than 100.</span>
 			}
+			else if(Model.CurrentResult < 0) {
+				<span class="NoResultFoundText">The current search returned no results.</span>
+			}
 			else {
 				<span class="ResultFoundText">The Search returned a value of: @Model.CurrentResult</span>
 			}
@@ -39,8 +42,4 @@
 			@Html.Partial("_SearchResults", Model.SearchResults)
 		</div>
 	</div>
-</div>
-
-<div style="margin:50px; border: 2px solid black;">
-	@Html.Raw(Model.WebResponse)
 </div>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -11,30 +12,21 @@ namespace InfoTrackScraper.Controllers
 		private static readonly HttpClient WebClient = new HttpClient();
 
 		public ActionResult Index(SearchViewModel SVM) {
-			// retrieve the data from the JSON file
+			// retrieve the data from the CSV file
 			return View("Index", SVM);
 		}
 
 		[HttpPost]
 		public ActionResult GSearch(SearchViewModel SearchModel) {
-			if(SearchModel.DefaultSearchIsChecked){
-				SearchModel.CurrentResult = 99; 
-			}
-			else{
-				SearchModel.CurrentResult = 101; 
-			}
-			
-			var response = PostGoogleConsentSave().Result;
+			_ = PostGoogleConsentSave().Result;
 			
 			string url = $"https://google.co.uk/search?num=100&q={SearchModel.SearchText.Replace(" ", "+")}";
 			SearchModel.WebResponse = CallUrl(url).Result;
 
+			SearchModel.CurrentResult = GetIndexOf(SearchModel.WebResponse, "www.infotrack.co.uk");
+
+			//append the number and the DateTime into a CSV file
 			return View("Index", SearchModel);
-			//Search google for the string
-			//get the first 100 results
-			//search for the index of the string
-			//return the number or null
-			//append the number and the DateTime into a JSON file
 		}
 
 		private async Task<string> CallUrl(string URL) =>
@@ -56,6 +48,14 @@ namespace InfoTrackScraper.Controllers
 			};
 			var resp =  await WebClient.PostAsync("https://consent.google.co.uk/save", new FormUrlEncodedContent(values)).ConfigureAwait(false);
 			return resp;
+		}
+
+		private int GetIndexOf(string HTML, string URL) {
+			var split = HTML.Split('<').Where(s => s.StartsWith("a href=\"/url?q="));
+
+			 return split.Any(s => s.ToLower().Contains(URL)) ? split.Select((String, Index) => new {String, Index})
+																	 .FirstOrDefault(s => s.String.ToLower().Contains(URL)).Index
+															  : -1;
 		}
 	}
 }
