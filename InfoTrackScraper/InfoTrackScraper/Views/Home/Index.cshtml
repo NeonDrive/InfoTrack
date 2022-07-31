@@ -12,7 +12,7 @@
 			<div class="SearchBox">
 				@Html.LabelFor(model => model.SearchText)
 				@Html.TextBoxFor(model => model.SearchText)
-				<input type="submit" value="Search">
+				<input id="SearchButton" type="submit" value="Search">
 			</div>
 			<div class="SearchCheckBox">
 				@Html.LabelFor(model => model.DefaultSearchIsChecked)
@@ -39,4 +39,8 @@
 			@Html.Partial("_SearchResults", Model.SearchResults)
 		</div>
 	</div>
+</div>
+
+<div style="margin:50px; border: 2px solid black;">
+	@Html.Raw(Model.WebResponse)
 </div>

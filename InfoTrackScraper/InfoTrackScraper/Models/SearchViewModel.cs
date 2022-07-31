@@ -16,5 +16,7 @@ namespace InfoTrackScraper.Models {
 		public List<SearchResult> SearchResults { get; set; } = new List<SearchResult>(){
 			new SearchResult(){SearchDateTime = System.DateTime.Now, Location = 3}
 		};
+
+		public string WebResponse {get; set;} = "";
 	}
 }
